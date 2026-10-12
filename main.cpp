@@ -20,11 +20,11 @@ void average_colors(std::vector<Pixel>& pixel_list){
         std::cout << "Pixel list is empty." << std::endl;
         return;
     }
-	//use double = don't lose precision when adding up to 130k+ numbers
+	//the sums are doubles instead of floast so ew dont lose prcision when adding up 130k+ numbers
     double sum_r = 0.0;
     double sum_g = 0.0;
     double sum_b = 0.0;
-    
+    // loop through every piexel and add its r, g, b
     for (size_t i = 0; i < pixel_list.size(); ++i){
         sum_r += pixel_list[i].r;
         sum_g += pixel_list[i].g;
@@ -35,12 +35,12 @@ void average_colors(std::vector<Pixel>& pixel_list){
     std::cout << "Average G : " << sum_g / pixel_list.size() << std::endl;
     std::cout << "Average B : " << sum_b / pixel_list.size() << std::endl;
 }
-
+// flip vertically
 void flip_vertically(std::vector<Pixel>& pixel_list) {
     if (pixel_list.empty()) return;
 
     // First, find the maximum y-value to know what we are flipping against
-    // (For a 256 height image, max_y should be 255)
+    // The y-length of the image is 256, so max y should be 255
     int max_y = 0;
     for (size_t i = 0; i < pixel_list.size(); ++i) {
         if (pixel_list[i].y > max_y) {
@@ -56,6 +56,7 @@ void flip_vertically(std::vector<Pixel>& pixel_list) {
 
 int main(int argc, char* argv[]) {
     // Step 3: Take a string from the command line for the file to read
+    // argv[0] is the program name and argv[1] is the file name so if argc < 2 no file name is given
     if (argc < 2) {
         std::cerr << "Usage: " << argv[0] << " <filename>" << std::endl;
         return 1;
@@ -99,7 +100,7 @@ int main(int argc, char* argv[]) {
     infile.close();
     std::cout << "\nSuccessfully read : " << pixel_list.size() << " pixels\n" << std::endl;
     
-    //step 4
+    //step 4 average the colors, then flip the image vertically
     average_colors(pixel_list);
     flip_vertically(pixel_list);
     
@@ -111,7 +112,7 @@ int main(int argc, char* argv[]) {
         std::cerr << "Error opening flipped.dat for writing" << std::endl;
         return 1;
     }
-    
+    // write each pixel on its own line as x,y,r,g,b
     for (size_t i = 0; i < pixel_list.size(); ++i) {
         outfile << pixel_list[i].x << ","
                 << pixel_list[i].y << ","
